@@ -1,0 +1,81 @@
+server:
+  website: api-demo
+  port: 11001
+  compression:
+    enabled: true
+  tomcat:
+    accept-count: 250
+    max-threads: 750
+    accesslog:
+      enabled: true
+      directory: logs
+      suffix: .log
+      prefix: access
+      file-date-format: .yyyy-MM-dd
+      rotate: true
+      rename-on-rotate: false
+      pattern: '{
+        "requestUrl":"%{requestUrl}i",
+        "requestApi":"%U",
+        "queryString":"%q",
+        "contentType":"%{content-type}i",
+        "userAgent":"%{userAgent}i",
+        "sessionId":"%{sessionId}i",
+        "routeId":"%{routeId}i",
+        "referer":"%{referer}i",
+        "clientNo":"%{clientNo}i",
+        "clientIp":"%{clientIp}i",
+        "datetime":"%{yyyy-MM-dd HH:mm:ss}t",
+        "timeTakenToServe":"%T(sec)"
+      }'
+    basedir: .
+  servlet:
+    session:
+      timeout: 7200
+---
+spring:
+  profiles:
+    active: local
+---
+swagger:
+  targetPackage: "demo.api"
+  apiName: "SpringBoot-Server API"
+  apiVersion: "1.0"
+  apiDescription: "API 명세서"
+---
+spring:
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+    properties:
+      hibernate:
+        dialect: CustomMysqlDialect
+        format_sql: false
+        default_batch_fetch_size: 1000
+    open-in-view: false
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+  mail:
+    host:
+    port:
+    fromAddress:
+    username:
+    password:
+---
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
+      multiline: true
+---
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics, prometheus

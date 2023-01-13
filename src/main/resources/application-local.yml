@@ -1,0 +1,23 @@
+spring:
+  datasource-primary: #mysql
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    jdbc-url:
+    username:
+    password:
+    database-name:
+  datasource-secondary: #mysql
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    jdbc-url:
+    username:
+    password:
+    schedule-no:
+    prefix-url:
+  datasource-third: #mssql
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    jdbc-url:
+    username:
+    password:
+  swagger:
+    base-url: "http://{localIp}:11001"
+    base-url-desc: "local"
+    enable: true
